@@ -188,7 +188,7 @@ resource "openstack_compute_instance_v2" "ses" {
   ]
 
   network {
-    port = openstack_networking_port_v2.ceph_port.id
+    name = openstack_networking_network_v2.ceph_network.name
   }
 
   depends_on = [openstack_networking_subnet_v2.ceph_subnet]
