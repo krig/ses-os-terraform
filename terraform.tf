@@ -199,15 +199,3 @@ resource "openstack_compute_volume_attach_v2" "attached" {
   instance_id = element(openstack_compute_instance_v2.ses.*.id, count.index)
   volume_id   = element(openstack_blockstorage_volume_v2.osd.*.id, count.index)
 }
-
-resource "openstack_compute_floatingip_v2" "fip" {
-  count = var.workers
-  pool = "floating"
-}
-
-resource "openstack_compute_floatingip_associate_v2" "ceph_floating" {
-  count = var.workers
-  floating_ip = element(openstack_compute_floatingip_v2.fip.*.address, count.index)
-  instance_id = element(openstack_compute_instance_v2.ses.*.id, count.index)
-}
-
