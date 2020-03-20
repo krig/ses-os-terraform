@@ -182,6 +182,7 @@ resource "openstack_compute_instance_v2" "ses" {
   key_pair   = openstack_compute_keypair_v2.my-cloud-key.name
 
   security_groups = [
+    "default",
     openstack_compute_secgroup_v2.open_ssh.name,
     openstack_compute_secgroup_v2.open_ceph.name
   ]
