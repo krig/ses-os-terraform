@@ -14,6 +14,11 @@ variable "public_key" {
   description = "Public key for keypair to use when connecting"
 }
 
+variable "workers" {
+  description = "Number of compute instances to create"
+  default = 4
+}
+
 provider "openstack" {
   user_name           = var.username
   password            = var.password
@@ -23,10 +28,6 @@ provider "openstack" {
   project_domain_name = "default"
   user_domain_name    = "ldap_users"
   cacert_file         = "/usr/share/pki/trust/anchors/SUSE_Trust_Root.crt.pem"
-}
-
-variable "workers" {
-  default = 4
 }
 
 resource "openstack_compute_keypair_v2" "my-cloud-key" {
