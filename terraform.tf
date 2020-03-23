@@ -199,3 +199,26 @@ resource "openstack_compute_volume_attach_v2" "attached" {
   instance_id = element(openstack_compute_instance_v2.ses.*.id, count.index)
   volume_id   = element(openstack_blockstorage_volume_v2.osd.*.id, count.index)
 }
+
+resource "openstack_compute_floatingip_v2" "cluster_ip" {
+  pool = "floating"
+}
+
+resource "openstack_compute_floatingip_associate_v2" "cluster_fip" {
+  floating_ip = openstack_compute_floatingip_v2.cluster_ip.address
+  instance_id = openstack_compute_instance_v2.ses.0.id
+}
+
+resource "openstack_networking_router_v2" "ses_router" {
+  name = format("%s-router", var.username)
+  external_network_id = "890584bc-da17-424b-9147-2dc8f3d69d64"
+}
+
+resource "openstack_networking_router_interface_v2" "router_interface_1" {
+  router_id = openstack_networking_router_v2.ses_router.id
+  subnet_id = openstack_networking_subnet_v2.ceph_subnet.id
+}
+
+output "floatingAddress" {
+  value = openstack_compute_floatingip_associate_v2.cluster_fip.floating_ip
+}
