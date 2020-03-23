@@ -47,7 +47,7 @@ resource "openstack_networking_subnet_v2" "ceph_subnet" {
 }
 
 resource "openstack_compute_secgroup_v2" "open_ssh" {
-  name        = "open_ssh"
+  name        = format("%s-open_ssh", var.username)
   description = "Open port for SSH"
 
   rule {
@@ -59,7 +59,7 @@ resource "openstack_compute_secgroup_v2" "open_ssh" {
 }
 
 resource "openstack_compute_secgroup_v2" "open_ceph" {
-  name        = "open_ceph"
+  name        = format("%s-open_ceph", var.username)
   description = "Open ports for ceph"
 
   rule {
